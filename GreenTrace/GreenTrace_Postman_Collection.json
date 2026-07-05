@@ -1,0 +1,408 @@
+{
+  "info": {
+    "name": "GreenTrace API",
+    "_postman_id": "greentrace-collection-v1",
+    "description": "Complete API collection for the GreenTrace Carbon Footprint Tracking System",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8080",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Register User",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{base_url}}/api/auth/register", "host": ["{{base_url}}"], "path": ["api", "auth", "register"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"John Auditor\",\n  \"email\": \"john@greentrace.com\",\n  \"password\": \"password123\",\n  \"role\": \"ROLE_ENVIRONMENTAL_AUDITOR\",\n  \"organizationId\": 1\n}"
+            }
+          }
+        },
+        {
+          "name": "Login (Admin)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "pm.collectionVariables.set('token', jsonData.token);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{base_url}}/api/auth/login", "host": ["{{base_url}}"], "path": ["api", "auth", "login"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@greentrace.com\",\n  \"password\": \"admin123\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Organizations",
+      "item": [
+        {
+          "name": "Create Organization",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{base_url}}/api/organizations", "host": ["{{base_url}}"], "path": ["api", "organizations"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Green Corp Ltd\",\n  \"industry\": \"Manufacturing\",\n  \"country\": \"India\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Get All Organizations",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": {
+              "raw": "{{base_url}}/api/organizations?page=0&size=10",
+              "host": ["{{base_url}}"],
+              "path": ["api", "organizations"],
+              "query": [{ "key": "page", "value": "0" }, { "key": "size", "value": "10" }]
+            }
+          }
+        },
+        {
+          "name": "Get Organization by ID",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{base_url}}/api/organizations/1", "host": ["{{base_url}}"], "path": ["api", "organizations", "1"] }
+          }
+        },
+        {
+          "name": "Update Organization",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{base_url}}/api/organizations/1", "host": ["{{base_url}}"], "path": ["api", "organizations", "1"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Green Corp Updated\",\n  \"industry\": \"Technology\",\n  \"country\": \"India\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete Organization",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{base_url}}/api/organizations/1", "host": ["{{base_url}}"], "path": ["api", "organizations", "1"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "Create User",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{base_url}}/api/users", "host": ["{{base_url}}"], "path": ["api", "users"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Alice Auditor\",\n  \"email\": \"alice@greentrace.com\",\n  \"password\": \"password123\",\n  \"role\": \"ROLE_ENVIRONMENTAL_AUDITOR\",\n  \"organizationId\": 1\n}"
+            }
+          }
+        },
+        {
+          "name": "Get All Users",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": {
+              "raw": "{{base_url}}/api/users?page=0&size=10",
+              "host": ["{{base_url}}"],
+              "path": ["api", "users"],
+              "query": [{ "key": "page", "value": "0" }, { "key": "size", "value": "10" }]
+            }
+          }
+        },
+        {
+          "name": "Get User by ID",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{base_url}}/api/users/1", "host": ["{{base_url}}"], "path": ["api", "users", "1"] }
+          }
+        },
+        {
+          "name": "Update User",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{base_url}}/api/users/1", "host": ["{{base_url}}"], "path": ["api", "users", "1"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Alice Updated\",\n  \"email\": \"alice@greentrace.com\",\n  \"password\": \"newpassword123\",\n  \"role\": \"ROLE_ENVIRONMENTAL_AUDITOR\",\n  \"organizationId\": 1\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete User",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{base_url}}/api/users/1", "host": ["{{base_url}}"], "path": ["api", "users", "1"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Emission Factors",
+      "item": [
+        {
+          "name": "Create Emission Factor",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{base_url}}/api/emission-factors", "host": ["{{base_url}}"], "path": ["api", "emission-factors"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"activityType\": \"Electricity Consumption\",\n  \"description\": \"Grid electricity usage in kWh\",\n  \"kgCo2PerUnit\": 0.82,\n  \"unit\": \"kWh\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Get All Emission Factors",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": {
+              "raw": "{{base_url}}/api/emission-factors?page=0&size=10",
+              "host": ["{{base_url}}"],
+              "path": ["api", "emission-factors"],
+              "query": [{ "key": "page", "value": "0" }, { "key": "size", "value": "10" }]
+            }
+          }
+        },
+        {
+          "name": "Get Emission Factor by ID",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{base_url}}/api/emission-factors/1", "host": ["{{base_url}}"], "path": ["api", "emission-factors", "1"] }
+          }
+        },
+        {
+          "name": "Update Emission Factor",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{base_url}}/api/emission-factors/1", "host": ["{{base_url}}"], "path": ["api", "emission-factors", "1"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"activityType\": \"Electricity Consumption\",\n  \"description\": \"Updated grid electricity factor\",\n  \"kgCo2PerUnit\": 0.85,\n  \"unit\": \"kWh\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete Emission Factor",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{base_url}}/api/emission-factors/1", "host": ["{{base_url}}"], "path": ["api", "emission-factors", "1"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Carbon Activities",
+      "item": [
+        {
+          "name": "Create Carbon Activity",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{base_url}}/api/activities", "host": ["{{base_url}}"], "path": ["api", "activities"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"organizationId\": 1,\n  \"emissionFactorId\": 1,\n  \"quantity\": 500,\n  \"activityDate\": \"2025-06-01\",\n  \"notes\": \"Monthly electricity consumption\",\n  \"recordedById\": 1\n}"
+            }
+          }
+        },
+        {
+          "name": "Get All Activities",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": {
+              "raw": "{{base_url}}/api/activities?page=0&size=10",
+              "host": ["{{base_url}}"],
+              "path": ["api", "activities"],
+              "query": [{ "key": "page", "value": "0" }, { "key": "size", "value": "10" }]
+            }
+          }
+        },
+        {
+          "name": "Get Activities by Organization",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": {
+              "raw": "{{base_url}}/api/activities?organizationId=1&page=0&size=10",
+              "host": ["{{base_url}}"],
+              "path": ["api", "activities"],
+              "query": [{ "key": "organizationId", "value": "1" }, { "key": "page", "value": "0" }, { "key": "size", "value": "10" }]
+            }
+          }
+        },
+        {
+          "name": "Get Activity by ID",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{base_url}}/api/activities/1", "host": ["{{base_url}}"], "path": ["api", "activities", "1"] }
+          }
+        },
+        {
+          "name": "Update Activity",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{base_url}}/api/activities/1", "host": ["{{base_url}}"], "path": ["api", "activities", "1"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"organizationId\": 1,\n  \"emissionFactorId\": 1,\n  \"quantity\": 600,\n  \"activityDate\": \"2025-06-15\",\n  \"notes\": \"Updated electricity consumption\",\n  \"recordedById\": 1\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete Activity",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{base_url}}/api/activities/1", "host": ["{{base_url}}"], "path": ["api", "activities", "1"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Reports",
+      "item": [
+        {
+          "name": "Generate Report",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{base_url}}/api/reports/generate", "host": ["{{base_url}}"], "path": ["api", "reports", "generate"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"organizationId\": 1,\n  \"periodStart\": \"2025-01-01\",\n  \"periodEnd\": \"2025-06-30\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Get All Reports",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": {
+              "raw": "{{base_url}}/api/reports?page=0&size=10",
+              "host": ["{{base_url}}"],
+              "path": ["api", "reports"],
+              "query": [{ "key": "page", "value": "0" }, { "key": "size", "value": "10" }]
+            }
+          }
+        },
+        {
+          "name": "Get Reports by Organization",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": {
+              "raw": "{{base_url}}/api/reports?organizationId=1&page=0&size=10",
+              "host": ["{{base_url}}"],
+              "path": ["api", "reports"],
+              "query": [{ "key": "organizationId", "value": "1" }, { "key": "page", "value": "0" }, { "key": "size", "value": "10" }]
+            }
+          }
+        },
+        {
+          "name": "Get Report by ID",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{base_url}}/api/reports/1", "host": ["{{base_url}}"], "path": ["api", "reports", "1"] }
+          }
+        },
+        {
+          "name": "Update Report Status (FINAL)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{base_url}}/api/reports/1/status", "host": ["{{base_url}}"], "path": ["api", "reports", "1", "status"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"FINAL\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete Report",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{base_url}}/api/reports/1", "host": ["{{base_url}}"], "path": ["api", "reports", "1"] }
+          }
+        }
+      ]
+    }
+  ]
+}

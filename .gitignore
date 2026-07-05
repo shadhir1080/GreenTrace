@@ -1,0 +1,21 @@
+# Maven
+maven.zip
+maven_extracted/
+
+# Node/Vite
+node_modules/
+dist/
+*.local
+
+# Spring Boot
+GreenTrace/target/
+.mvn/
+GreenTrace/.mvn/
+*.class
+
+# IDE configurations
+.idea/
+.vscode/
+.gemini/
+*.iml
+__MACOSX/

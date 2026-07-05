@@ -1,0 +1,381 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_date": "2025-06-29",
+  "__export_source": "insomnia.desktop.app",
+  "resources": [
+    {
+      "_id": "env_greentrace",
+      "_type": "environment",
+      "parentId": "wrk_greentrace",
+      "name": "GreenTrace Environment",
+      "data": {
+        "base_url": "http://localhost:8080",
+        "token": ""
+      }
+    },
+    {
+      "_id": "wrk_greentrace",
+      "_type": "workspace",
+      "name": "GreenTrace API",
+      "description": "Carbon Footprint Tracking System"
+    },
+    {
+      "_id": "fld_auth",
+      "_type": "request_group",
+      "parentId": "wrk_greentrace",
+      "name": "Authentication"
+    },
+    {
+      "_id": "req_register",
+      "_type": "request",
+      "parentId": "fld_auth",
+      "name": "Register User",
+      "method": "POST",
+      "url": "{{ _.base_url }}/api/auth/register",
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"John Auditor\",\n  \"email\": \"john@greentrace.com\",\n  \"password\": \"password123\",\n  \"role\": \"ROLE_ENVIRONMENTAL_AUDITOR\",\n  \"organizationId\": 1\n}"
+      }
+    },
+    {
+      "_id": "req_login",
+      "_type": "request",
+      "parentId": "fld_auth",
+      "name": "Login (Admin)",
+      "method": "POST",
+      "url": "{{ _.base_url }}/api/auth/login",
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"email\": \"admin@greentrace.com\",\n  \"password\": \"admin123\"\n}"
+      }
+    },
+    {
+      "_id": "fld_orgs",
+      "_type": "request_group",
+      "parentId": "wrk_greentrace",
+      "name": "Organizations"
+    },
+    {
+      "_id": "req_create_org",
+      "_type": "request",
+      "parentId": "fld_orgs",
+      "name": "Create Organization",
+      "method": "POST",
+      "url": "{{ _.base_url }}/api/organizations",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "Authorization", "value": "Bearer {{ _.token }}" }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"Green Corp Ltd\",\n  \"industry\": \"Manufacturing\",\n  \"country\": \"India\"\n}"
+      }
+    },
+    {
+      "_id": "req_get_orgs",
+      "_type": "request",
+      "parentId": "fld_orgs",
+      "name": "Get All Organizations",
+      "method": "GET",
+      "url": "{{ _.base_url }}/api/organizations?page=0&size=10",
+      "headers": [{ "name": "Authorization", "value": "Bearer {{ _.token }}" }]
+    },
+    {
+      "_id": "req_get_org_by_id",
+      "_type": "request",
+      "parentId": "fld_orgs",
+      "name": "Get Organization by ID",
+      "method": "GET",
+      "url": "{{ _.base_url }}/api/organizations/1",
+      "headers": [{ "name": "Authorization", "value": "Bearer {{ _.token }}" }]
+    },
+    {
+      "_id": "req_update_org",
+      "_type": "request",
+      "parentId": "fld_orgs",
+      "name": "Update Organization",
+      "method": "PUT",
+      "url": "{{ _.base_url }}/api/organizations/1",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "Authorization", "value": "Bearer {{ _.token }}" }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"Green Corp Updated\",\n  \"industry\": \"Technology\",\n  \"country\": \"India\"\n}"
+      }
+    },
+    {
+      "_id": "req_delete_org",
+      "_type": "request",
+      "parentId": "fld_orgs",
+      "name": "Delete Organization",
+      "method": "DELETE",
+      "url": "{{ _.base_url }}/api/organizations/1",
+      "headers": [{ "name": "Authorization", "value": "Bearer {{ _.token }}" }]
+    },
+    {
+      "_id": "fld_users",
+      "_type": "request_group",
+      "parentId": "wrk_greentrace",
+      "name": "Users"
+    },
+    {
+      "_id": "req_create_user",
+      "_type": "request",
+      "parentId": "fld_users",
+      "name": "Create User",
+      "method": "POST",
+      "url": "{{ _.base_url }}/api/users",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "Authorization", "value": "Bearer {{ _.token }}" }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"Alice Auditor\",\n  \"email\": \"alice@greentrace.com\",\n  \"password\": \"password123\",\n  \"role\": \"ROLE_ENVIRONMENTAL_AUDITOR\",\n  \"organizationId\": 1\n}"
+      }
+    },
+    {
+      "_id": "req_get_users",
+      "_type": "request",
+      "parentId": "fld_users",
+      "name": "Get All Users",
+      "method": "GET",
+      "url": "{{ _.base_url }}/api/users?page=0&size=10",
+      "headers": [{ "name": "Authorization", "value": "Bearer {{ _.token }}" }]
+    },
+    {
+      "_id": "req_get_user_by_id",
+      "_type": "request",
+      "parentId": "fld_users",
+      "name": "Get User by ID",
+      "method": "GET",
+      "url": "{{ _.base_url }}/api/users/1",
+      "headers": [{ "name": "Authorization", "value": "Bearer {{ _.token }}" }]
+    },
+    {
+      "_id": "req_update_user",
+      "_type": "request",
+      "parentId": "fld_users",
+      "name": "Update User",
+      "method": "PUT",
+      "url": "{{ _.base_url }}/api/users/1",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "Authorization", "value": "Bearer {{ _.token }}" }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"Alice Updated\",\n  \"email\": \"alice@greentrace.com\",\n  \"password\": \"newpassword123\",\n  \"role\": \"ROLE_ENVIRONMENTAL_AUDITOR\",\n  \"organizationId\": 1\n}"
+      }
+    },
+    {
+      "_id": "req_delete_user",
+      "_type": "request",
+      "parentId": "fld_users",
+      "name": "Delete User",
+      "method": "DELETE",
+      "url": "{{ _.base_url }}/api/users/1",
+      "headers": [{ "name": "Authorization", "value": "Bearer {{ _.token }}" }]
+    },
+    {
+      "_id": "fld_factors",
+      "_type": "request_group",
+      "parentId": "wrk_greentrace",
+      "name": "Emission Factors"
+    },
+    {
+      "_id": "req_create_factor",
+      "_type": "request",
+      "parentId": "fld_factors",
+      "name": "Create Emission Factor",
+      "method": "POST",
+      "url": "{{ _.base_url }}/api/emission-factors",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "Authorization", "value": "Bearer {{ _.token }}" }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"activityType\": \"Electricity Consumption\",\n  \"description\": \"Grid electricity usage in kWh\",\n  \"kgCo2PerUnit\": 0.82,\n  \"unit\": \"kWh\"\n}"
+      }
+    },
+    {
+      "_id": "req_get_factors",
+      "_type": "request",
+      "parentId": "fld_factors",
+      "name": "Get All Emission Factors",
+      "method": "GET",
+      "url": "{{ _.base_url }}/api/emission-factors?page=0&size=10",
+      "headers": [{ "name": "Authorization", "value": "Bearer {{ _.token }}" }]
+    },
+    {
+      "_id": "req_get_factor_by_id",
+      "_type": "request",
+      "parentId": "fld_factors",
+      "name": "Get Emission Factor by ID",
+      "method": "GET",
+      "url": "{{ _.base_url }}/api/emission-factors/1",
+      "headers": [{ "name": "Authorization", "value": "Bearer {{ _.token }}" }]
+    },
+    {
+      "_id": "req_update_factor",
+      "_type": "request",
+      "parentId": "fld_factors",
+      "name": "Update Emission Factor",
+      "method": "PUT",
+      "url": "{{ _.base_url }}/api/emission-factors/1",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "Authorization", "value": "Bearer {{ _.token }}" }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"activityType\": \"Electricity Consumption\",\n  \"description\": \"Updated grid factor\",\n  \"kgCo2PerUnit\": 0.85,\n  \"unit\": \"kWh\"\n}"
+      }
+    },
+    {
+      "_id": "req_delete_factor",
+      "_type": "request",
+      "parentId": "fld_factors",
+      "name": "Delete Emission Factor",
+      "method": "DELETE",
+      "url": "{{ _.base_url }}/api/emission-factors/1",
+      "headers": [{ "name": "Authorization", "value": "Bearer {{ _.token }}" }]
+    },
+    {
+      "_id": "fld_activities",
+      "_type": "request_group",
+      "parentId": "wrk_greentrace",
+      "name": "Carbon Activities"
+    },
+    {
+      "_id": "req_create_activity",
+      "_type": "request",
+      "parentId": "fld_activities",
+      "name": "Create Carbon Activity",
+      "method": "POST",
+      "url": "{{ _.base_url }}/api/activities",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "Authorization", "value": "Bearer {{ _.token }}" }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"organizationId\": 1,\n  \"emissionFactorId\": 1,\n  \"quantity\": 500,\n  \"activityDate\": \"2025-06-01\",\n  \"notes\": \"Monthly electricity consumption\",\n  \"recordedById\": 1\n}"
+      }
+    },
+    {
+      "_id": "req_get_activities",
+      "_type": "request",
+      "parentId": "fld_activities",
+      "name": "Get All Activities",
+      "method": "GET",
+      "url": "{{ _.base_url }}/api/activities?page=0&size=10",
+      "headers": [{ "name": "Authorization", "value": "Bearer {{ _.token }}" }]
+    },
+    {
+      "_id": "req_get_activity_by_id",
+      "_type": "request",
+      "parentId": "fld_activities",
+      "name": "Get Activity by ID",
+      "method": "GET",
+      "url": "{{ _.base_url }}/api/activities/1",
+      "headers": [{ "name": "Authorization", "value": "Bearer {{ _.token }}" }]
+    },
+    {
+      "_id": "req_update_activity",
+      "_type": "request",
+      "parentId": "fld_activities",
+      "name": "Update Activity",
+      "method": "PUT",
+      "url": "{{ _.base_url }}/api/activities/1",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "Authorization", "value": "Bearer {{ _.token }}" }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"organizationId\": 1,\n  \"emissionFactorId\": 1,\n  \"quantity\": 600,\n  \"activityDate\": \"2025-06-15\",\n  \"notes\": \"Updated electricity consumption\",\n  \"recordedById\": 1\n}"
+      }
+    },
+    {
+      "_id": "req_delete_activity",
+      "_type": "request",
+      "parentId": "fld_activities",
+      "name": "Delete Activity",
+      "method": "DELETE",
+      "url": "{{ _.base_url }}/api/activities/1",
+      "headers": [{ "name": "Authorization", "value": "Bearer {{ _.token }}" }]
+    },
+    {
+      "_id": "fld_reports",
+      "_type": "request_group",
+      "parentId": "wrk_greentrace",
+      "name": "Reports"
+    },
+    {
+      "_id": "req_generate_report",
+      "_type": "request",
+      "parentId": "fld_reports",
+      "name": "Generate Report",
+      "method": "POST",
+      "url": "{{ _.base_url }}/api/reports/generate",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "Authorization", "value": "Bearer {{ _.token }}" }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"organizationId\": 1,\n  \"periodStart\": \"2025-01-01\",\n  \"periodEnd\": \"2025-06-30\"\n}"
+      }
+    },
+    {
+      "_id": "req_get_reports",
+      "_type": "request",
+      "parentId": "fld_reports",
+      "name": "Get All Reports",
+      "method": "GET",
+      "url": "{{ _.base_url }}/api/reports?page=0&size=10",
+      "headers": [{ "name": "Authorization", "value": "Bearer {{ _.token }}" }]
+    },
+    {
+      "_id": "req_get_report_by_id",
+      "_type": "request",
+      "parentId": "fld_reports",
+      "name": "Get Report by ID",
+      "method": "GET",
+      "url": "{{ _.base_url }}/api/reports/1",
+      "headers": [{ "name": "Authorization", "value": "Bearer {{ _.token }}" }]
+    },
+    {
+      "_id": "req_update_report_status",
+      "_type": "request",
+      "parentId": "fld_reports",
+      "name": "Update Report Status (FINAL)",
+      "method": "PATCH",
+      "url": "{{ _.base_url }}/api/reports/1/status",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "Authorization", "value": "Bearer {{ _.token }}" }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"status\": \"FINAL\"\n}"
+      }
+    },
+    {
+      "_id": "req_delete_report",
+      "_type": "request",
+      "parentId": "fld_reports",
+      "name": "Delete Report",
+      "method": "DELETE",
+      "url": "{{ _.base_url }}/api/reports/1",
+      "headers": [{ "name": "Authorization", "value": "Bearer {{ _.token }}" }]
+    }
+  ]
+}
